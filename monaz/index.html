@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Monaz | Multilingual Complete Menu (VAT Inclusive)</title>
+    <!-- Google Fonts + Icons (Font Awesome) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Sans+Ethiopic:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #fef7ef;
+            font-family: 'Inter', sans-serif;
+            color: #2c241a;
+            transition: all 0.2s ease;
+        }
+        /* language bar + logo */
+        .top-bar {
+            background: #1a2f24;
+            padding: 0.6rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border-bottom: 3px solid #e3b87c;
+        }
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255,215,140,0.15);
+            padding: 6px 18px;
+            border-radius: 60px;
+        }
+        .logo-icon {
+            background: #e3b87c;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #1a2f24;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .logo-text {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #f5e2c1;
+            font-family: 'Playfair Display', serif;
+        }
+        .lang-group {
+            display: flex;
+            gap: 0.8rem;
+        }
+        .lang-btn {
+            background: transparent;
+            border: 1px solid #e3b87c;
+            padding: 0.45rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            color: #fef0df;
+            transition: 0.2s;
+        }
+        .lang-btn.active {
+            background: #e3b87c;
+            color: #1a2f24;
+            border-color: #e3b87c;
+        }
+        .lang-btn:hover {
+            background: #c99f5e;
+            color: #1e2a1f;
+        }
+        .hero {
+            background: linear-gradient(105deg, #2c4a35 0%, #1f3a2a 100%);
+            color: white;
+            padding: 2rem 2rem 1.8rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: "🍽️";
+            font-size: 110px;
+            opacity: 0.07;
+            position: absolute;
+            bottom: -20px;
+            right: 20px;
+            transform: rotate(-10deg);
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .hero p {
+            opacity: 0.9;
+            margin-top: 0.4rem;
+            font-size: 1rem;
+        }
+        .controls {
+            max-width: 1400px;
+            margin: 2rem auto 0.5rem auto;
+            padding: 0 1.8rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .search-box {
+            flex: 2;
+            min-width: 240px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 0.8rem 1.4rem;
+            border-radius: 50px;
+            border: 1px solid #e2cfbc;
+            background: white;
+            font-size: 0.95rem;
+            outline: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            transition: 0.2s;
+        }
+        .search-box input:focus {
+            border-color: #e3b87c;
+            box-shadow: 0 0 0 3px rgba(227,184,124,0.2);
+        }
+        .category-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+        .cat-btn {
+            background: white;
+            border: 1px solid #e2cfbc;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #4a3b2c;
+        }
+        .cat-btn.active {
+            background: #2a4a35;
+            border-color: #2a4a35;
+            color: white;
+        }
+        .menu-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        .category-section {
+            margin-bottom: 3rem;
+            animation: fadeUp 0.3s ease;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .category-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            border-left: 6px solid #e3b87c;
+            padding-left: 1rem;
+            margin-bottom: 1.8rem;
+            color: #2c3a2a;
+        }
+        body.lang-ar .category-title,
+        body.lang-am .category-title {
+            font-family: 'Noto Sans Ethiopic', 'Noto Naskh Arabic', serif;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.6rem;
+        }
+        .menu-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.4rem;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.03);
+            border: 1px solid #f0e2d4;
+            transition: transform 0.2s, box-shadow 0.2s;
+            backdrop-filter: blur(0px);
+        }
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 28px -8px rgba(0,0,0,0.12);
+            border-color: #e3c9b0;
+        }
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.6rem;
+        }
+        .item-name {
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -0.2px;
+            color: #2b2b1f;
+        }
+        .item-price {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #b87c3a;
+            font-family: monospace;
+        }
+        .item-desc {
+            font-size: 0.8rem;
+            color: #7a6852;
+            border-top: 1px dashed #f0e0d0;
+            padding-top: 0.6rem;
+            margin-top: 0.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .item-number {
+            background: #f4ede5;
+            padding: 0.2rem 0.7rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+        .badge-icon {
+            color: #e3b87c;
+            font-size: 0.75rem;
+        }
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            background: #fef6ef;
+            border-radius: 2rem;
+            color: #aa8b64;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: #f2ebe2;
+            font-size: 0.8rem;
+            color: #5a4a38;
+            margin-top: 2rem;
+        }
+        @media (max-width: 750px) {
+            .hero h1 { font-size: 1.9rem; }
+            .category-title { font-size: 1.5rem; }
+            .menu-grid { grid-template-columns: 1fr; }
+            .top-bar { flex-direction: column; align-items: center; text-align: center; }
+        }
+        .small-flag {
+            font-size: 0.9rem;
+            margin-right: 4px;
+        }
+    </style>
+</head>
+<body class="lang-en">
+<div class="top-bar">
+    <div class="brand-logo">
+        <div class="logo-icon">Ⓜ️</div>
+        <div class="logo-text">MONAZ</div>
+    </div>
+    <div class="lang-group">
+        <button data-lang="en" class="lang-btn active"><i class="fas fa-language"></i> ENGLISH</button>
+        <button data-lang="am" class="lang-btn"><i class="fas fa-language"></i> አማርኛ</button>
+        <button data-lang="ar" class="lang-btn"><i class="fas fa-language"></i> العربية</button>
+    </div>
+</div>
+<div class="hero">
+    <h1 id="heroTitle">✦ MONAZ ─ GASTRONOMY ✦</h1>
+    <p id="heroSub">Authentic Ethiopian & International Cuisine | All prices include 15% VAT</p>
+    <div style="margin-top: 12px;"><i class="fas fa-utensils"></i> 130+ authentic dishes • fresh ingredients • complete menu</div>
+</div>
+<div class="controls">
+    <div class="search-box">
+        <input type="text" id="globalSearch" placeholder="🔍 Search dish... / ፈልግ... / بحث...">
+    </div>
+    <div class="category-filter" id="filterGroup"></div>
+</div>
+<div class="menu-container" id="menuRoot"></div>
+<footer>
+    <span id="footerText">✔️ Every single item from original menu — VAT inclusive pricing | Monaz signature cuisine</span>
+    <div style="margin-top: 8px;"><i class="fas fa-coffee"></i> <i class="fas fa-pizza-slice"></i> <i class="fas fa-egg"></i> <i class="fas fa-fish"></i></div>
+</footer>
+
+<script>
+    // --------------------------------------------------------------
+    // COMPLETE DATASET: 133 items (all items from original file, no omissions)
+    // Each includes EN, AM, AR names and short descriptions, category, VAT-inclusive price.
+    // Verified against "code" sheet (Result column). All items included.
+    // --------------------------------------------------------------
+    const FULL_MENU = [
+        // ---- Pizzas & Pastas ----
+        {no:1,en:{name:"Single Bed (special order)",desc:"Comfort single bed / event"},am:{name:"አልጋ",desc:"ልዩ ትዕዛዝ ነጠላ አልጋ"},ar:{name:"سرير فردي",desc:"طلب خاص - سرير مريح"},price:1200,cat:"Extras & Takeaway"},
+        {no:2,en:{name:"Medium Special Pizza",desc:"Loaded toppings & cheese"},am:{name:"መካከለኛ ስፔሻል ፒዛ",desc:"የተለያዩ ቅመሞች"},ar:{name:"بيتزا خاصة وسط",desc:"طبقة غنية بالجبن"},price:500,cat:"Pizzas & Pastas"},
+        {no:3,en:{name:"Large Special Pizza",desc:"Family size signature"},am:{name:"ትልቅ ስፔሻል ፒዛ",desc:"የቤተሰብ መጠን"},ar:{name:"بيتزا خاصة كبيرة",desc:"حجم العائلة"},price:600,cat:"Pizzas & Pastas"},
+        {no:4,en:{name:"Margherita Pizza",desc:"Tomato, mozzarella, basil"},am:{name:"ማርጋሬታ ፒዛ",desc:"ቲማቲም፣ ሞዛሬላ"},ar:{name:"بيتزا مارجريتا",desc:"طماطم، موزاريلا"},price:450,cat:"Pizzas & Pastas"},
+        {no:5,en:{name:"Tuna Pizza",desc:"Tuna, onions, capers"},am:{name:"ቱና ፒዛ",desc:"ቱና፣ ሽንኩርት"},ar:{name:"بيتزا تونة",desc:"تونة، بصل"},price:450,cat:"Pizzas & Pastas"},
+        {no:6,en:{name:"Chicken Pizza",desc:"Grilled chicken & peppers"},am:{name:"ዶሮ ፒዛ",desc:"የተጋገረ ዶሮ"},ar:{name:"بيتزا دجاج",desc:"دجاج مشوي"},price:500,cat:"Pizzas & Pastas"},
+        {no:7,en:{name:"Vegetable Pizza",desc:"Fresh seasonal veggies"},am:{name:"አትክልት ፒዛ",desc:"ትኩስ አትክልት"},ar:{name:"بيتزا خضار",desc:"خضروات موسمية"},price:400,cat:"Pizzas & Pastas"},
+        {no:8,en:{name:"Pasta with Tomato Sauce",desc:"Rich tomato & herbs"},am:{name:"ፓስታ በቲማቲም",desc:"ቲማቲም እና ቅጠላ ቅጠም"},ar:{name:"باستا صلصة طماطم",desc:"صلصة طماطم غنية"},price:250,cat:"Pizzas & Pastas"},
+        {no:9,en:{name:"Pasta with Vegetable",desc:"Mixed garden veggies"},am:{name:"ፓስታ በአትክልት",desc:"የአትክልት ማሽ"},ar:{name:"باستا بالخضار",desc:"خضروات مشكلة"},price:270,cat:"Pizzas & Pastas"},
+        {no:10,en:{name:"Pasta with Meat",desc:"Minced meat sauce"},am:{name:"ፓስታ በሥጋ",desc:"የተፈጨ ሥጋ"},ar:{name:"باستا باللحم",desc:"صلصة اللحم المفروم"},price:300,cat:"Pizzas & Pastas"},
+        {no:11,en:{name:"Pasta with Tuna",desc:"Tuna, garlic, olive oil"},am:{name:"ፓስታ በቱና",desc:"ቱና እና ነጭ ሽንኩርት"},ar:{name:"باستا بالتونة",desc:"تونة وزيت زيتون"},price:350,cat:"Pizzas & Pastas"},
+        {no:12,en:{name:"Pasta with Chicken",desc:"Creamy chicken pasta"},am:{name:"ፓስታ በዶሮ",desc:"ክሬም ዶሮ"},ar:{name:"باستا بالدجاج",desc:"باستا دجاج كريمية"},price:350,cat:"Pizzas & Pastas"},
+        // ---- Burgers & Sandwiches ----
+        {no:13,en:{name:"Special Double Burger",desc:"Double patty, cheese"},am:{name:"ልዩ ድርብ በርገር",desc:"ሁለት በርገር እና አይብ"},ar:{name:"برغر دبل خاص",desc:"شريحة لحم مزدوجة"},price:500,cat:"Burgers & Sandwiches"},
+        {no:14,en:{name:"Special Burger",desc:"Signature beef burger"},am:{name:"ልዩ በርገር",desc:"የምልክት በርገር"},ar:{name:"برغر خاص",desc:"برغر لحم مميز"},price:400,cat:"Burgers & Sandwiches"},
+        {no:15,en:{name:"Normal Burger",desc:"Classic burger"},am:{name:"ተራ በርገር",desc:"ክላሲክ በርገር"},ar:{name:"برغر عادي",desc:"برغر كلاسيكي"},price:350,cat:"Burgers & Sandwiches"},
+        {no:16,en:{name:"Chicken Burger",desc:"Crispy chicken fillet"},am:{name:"ዶሮ በርገር",desc:"ብስኩት ዶሮ"},ar:{name:"برغر دجاج",desc:"فيليه دجاج مقرمش"},price:450,cat:"Burgers & Sandwiches"},
+        {no:17,en:{name:"Cheese Burger",desc:"Melted cheese & pickles"},am:{name:"ቺዝ በርገር",desc:"የቀለጠ አይብ"},ar:{name:"برغر جبن",desc:"جبن ذائب ومخلل"},price:400,cat:"Burgers & Sandwiches"},
+        {no:18,en:{name:"Egg Sandwich",desc:"Toasted egg sandwich"},am:{name:"እንቁላል ሳንድዊች",desc:"የተጠበሰ እንቁላል"},ar:{name:"ساندويش بيض",desc:"ساندويش بيض محمص"},price:250,cat:"Burgers & Sandwiches"},
+        {no:19,en:{name:"Club Sandwich",desc:"Triple-layer club"},am:{name:"ክለብ ሳንድዊች",desc:"ሶስት እንክብል"},ar:{name:"ساندويش كلوب",desc:"ثلاثي الطبقات"},price:350,cat:"Burgers & Sandwiches"},
+        {no:20,en:{name:"Vegetable Sandwich",desc:"Fresh greens"},am:{name:"አትክልት ሳንድዊች",desc:"ትኩስ አትክልት"},ar:{name:"ساندويش خضار",desc:"خضار طازجة"},price:250,cat:"Burgers & Sandwiches"},
+        {no:21,en:{name:"Tuna Sandwich",desc:"Tuna mayo"},am:{name:"ቱና ሳንድዊች",desc:"ቱና ማዮኔዝ"},ar:{name:"ساندويش تونة",desc:"تونة بمايونيز"},price:350,cat:"Burgers & Sandwiches"},
+        {no:22,en:{name:"Beef Wrap",desc:"Beef tortilla wrap"},am:{name:"ቢፍ ራፕ",desc:"የበሬ ሥጋ ራፕ"},ar:{name:"لفائف لحم",desc:"لفائف لحم البقر"},price:380,cat:"Burgers & Sandwiches"},
+        {no:23,en:{name:"Vegetable Wrap",desc:"Veggie wrap"},am:{name:"አትክልት ራፕ",desc:"አትክልት ራፕ"},ar:{name:"لفائف خضار",desc:"لفائف خضار"},price:250,cat:"Burgers & Sandwiches"},
+        {no:24,en:{name:"Tuna Wrap",desc:"Tuna wrap with salad"},am:{name:"ቱና ራፕ",desc:"ቱና እና ሰላጣ"},ar:{name:"لفائف تونة",desc:"تونة مع سلطة"},price:600,cat:"Burgers & Sandwiches"},
+        {no:25,en:{name:"Special Wrap",desc:"Signature wrap"},am:{name:"ልዩ ራፕ",desc:"ልዩ ራፕ"},ar:{name:"لفائف خاصة",desc:"لفائف مميزة"},price:500,cat:"Burgers & Sandwiches"},
+        // ---- Rice & Specials ----
+        {no:26,en:{name:"Rice with Vegetable",desc:"Stir-fried rice with veg"},am:{name:"ሩዝ በአትክልት",desc:"አትክልት ሩዝ"},ar:{name:"أرز بالخضار",desc:"أرز مقلي بالخضار"},price:270,cat:"Rice & Specials"},
+        {no:27,en:{name:"Rice with Tomato",desc:"Tomato infused rice"},am:{name:"ሩዝ በቲማቲም",desc:"ቲማቲም ሩዝ"},ar:{name:"أرز بالطماطم",desc:"أرز بنكهة الطماطم"},price:250,cat:"Rice & Specials"},
+        {no:28,en:{name:"Rice with Tuna",desc:"Tuna rice bowl"},am:{name:"ሩዝ በቱና",desc:"ቱና ሩዝ"},ar:{name:"أرز بالتونة",desc:"وجبة أرز تونة"},price:350,cat:"Rice & Specials"},
+        {no:29,en:{name:"Rice with Meat",desc:"Savory meat rice"},am:{name:"ሩዝ በሥጋ",desc:"ሥጋ ሩዝ"},ar:{name:"أرز باللحم",desc:"أرز لحم لذيذ"},price:300,cat:"Rice & Specials"},
+        {no:30,en:{name:"Rice with Chicken",desc:"Chicken & aromatic rice"},am:{name:"ሩዝ በዶሮ",desc:"ዶሮ ሩዝ"},ar:{name:"أرز بالدجاج",desc:"أرز عطري بالدجاج"},price:350,cat:"Rice & Specials"},
+        {no:31,en:{name:"Fried Vegetable",desc:"Assorted fried veg"},am:{name:"የተጠበሰ አትክልት",desc:"አትክልት ጥብስ"},ar:{name:"خضار مقلي",desc:"خضروات مقلية مشكلة"},price:210,cat:"Rice & Specials"},
+        // ---- Ethiopian Classics ----
+        {no:32,en:{name:"Special Fetira",desc:"Layered Ethiopian pancake"},am:{name:"ልዩ ፈጢራ",desc:"የኢትዮጵያ ፓንኬክ"},ar:{name:"فطيرة خاصة",desc:"فطيرة إثيوبية طبقات"},price:250,cat:"Ethiopian Classics"},
+        {no:33,en:{name:"Normal Fetira",desc:"Plain fetira bread"},am:{name:"ተራ ፈጢራ",desc:"ፈጢራ እንጀራ"},ar:{name:"فطيرة عادية",desc:"خبز فطيرة"},price:210,cat:"Ethiopian Classics"},
+        {no:34,en:{name:"Special Chechebsa",desc:"Spiced shredded bread"},am:{name:"ልዩ ጨጨብሳ",desc:"ቅመም የተፈጨ እንጀራ"},ar:{name:"تشيتشيبسا خاصة",desc:"خبز مبشور متبل"},price:250,cat:"Ethiopian Classics"},
+        {no:35,en:{name:"Normal Chechebsa",desc:"Buttery chechebsa"},am:{name:"ተራ ጨጨብሳ",desc:"ቅቤና ጨጨብሳ"},ar:{name:"تشيتشيبسا عادي",desc:"تشيتشيبسا بالزبدة"},price:220,cat:"Ethiopian Classics"},
+        {no:36,en:{name:"Special Firfir",desc:"Spicy torn injera"},am:{name:"ልዩ ፍርፍር",desc:"ቅመም ፍርፍር"},ar:{name:"فرسفير خاص",desc:"إنجيرا حارة ممزقة"},price:300,cat:"Ethiopian Classics"},
+        {no:37,en:{name:"Normal Firfir",desc:"Mild firfir"},am:{name:"ተራ ፍርፍር",desc:"ለስላሳ ፍርፍር"},ar:{name:"فرسفير عادي",desc:"فرسفير معتدل"},price:220,cat:"Ethiopian Classics"},
+        {no:38,en:{name:"Kuanta Firfir",desc:"Dried meat firfir"},am:{name:"ቋንጣ ፍርፍር",desc:"የደረቀ ሥጋ"},ar:{name:"كوانتا فرسفير",desc:"فرسفير باللحم المجفف"},price:370,cat:"Ethiopian Classics"},
+        {no:39,en:{name:"Firfir with Meat",desc:"Sautéed meat firfir"},am:{name:"ሥጋ ፍርፍር",desc:"በሥጋ የተዘጋጀ"},ar:{name:"فرسفير باللحم",desc:"فرسفير مع لحم سوتيه"},price:350,cat:"Ethiopian Classics"},
+        {no:40,en:{name:"Beyayenetu",desc:"Veggie platter"},am:{name:"በየአይነቱ",desc:"የአትክልት ቅመም"},ar:{name:"بياينيتو",desc:"طبق خضار مشكل"},price:300,cat:"Ethiopian Classics"},
+        {no:41,en:{name:"Gomen Besega",desc:"Collard greens & beef"},am:{name:"ጐመን በሥጋ",desc:"ጐመን ከሥጋ"},ar:{name:"جومين بسيجا",desc:"كرنب مع لحم"},price:350,cat:"Ethiopian Classics"},
+        {no:42,en:{name:"Gomen Tibs",desc:"Sautéed collard greens"},am:{name:"ጐመን ጥብስ",desc:"ጐመን ጥብስ"},ar:{name:"جومين تبس",desc:"كرنب سوتيه"},price:300,cat:"Ethiopian Classics"},
+        {no:43,en:{name:"Special Kitfo",desc:"Minced raw beef"},am:{name:"ልዩ ክትፎ",desc:"በቅመም"},ar:{name:"كيتفو خاص",desc:"لحم مفروم نيء"},price:900,cat:"Ethiopian Classics"},
+        {no:44,en:{name:"Kitfo Firfir",desc:"Kitfo mixed with injera"},am:{name:"ክትፎ ፍርፍር",desc:"ክትፎ እንጀራ"},ar:{name:"كيتفو فرسفير",desc:"كيتفو مع إنجيرا"},price:550,cat:"Ethiopian Classics"},
+        {no:45,en:{name:"Key Wot",desc:"Spicy beef stew"},am:{name:"ቀይ ወጥ",desc:"ቅመም የበሬ"},ar:{name:"كاي وات",desc:"يخنة لحم حارة"},price:350,cat:"Ethiopian Classics"},
+        {no:46,en:{name:"Yebeg Kikele",desc:"Lamb stew"},am:{name:"የበግ ቅቀል",desc:"የበግ ወጥ"},ar:{name:"يبغ كيكيل",desc:"يخنة خروف"},price:350,cat:"Ethiopian Classics"},
+        {no:47,en:{name:"Dulet",desc:"Spicy organ meat"},am:{name:"ዱለት",desc:"የአንጀት ወጥ"},ar:{name:"دوليت",desc:"لحم أحشاء حار"},price:350,cat:"Ethiopian Classics"},
+        {no:48,en:{name:"Shiro with Butter",desc:"Chickpea stew"},am:{name:"ሽሮ በቅቤ",desc:"ሽሮ ወጥ"},ar:{name:"شيرو بالزبدة",desc:"يخنة حمص"},price:300,cat:"Ethiopian Classics"},
+        {no:49,en:{name:"Fasting Shiro",desc:"Vegan shiro"},am:{name:"የጾም ሽሮ",desc:"ቬጋን ሽሮ"},ar:{name:"شيرو الصوم",desc:"شيرو نباتي"},price:270,cat:"Ethiopian Classics"},
+        {no:50,en:{name:"Normal Shiro",desc:"Classic shiro"},am:{name:"ተራ ሽሮ",desc:"ሽሮ ወጥ"},ar:{name:"شيرو عادي",desc:"شيرو تقليدي"},price:250,cat:"Ethiopian Classics"},
+        {no:51,en:{name:"Shiro with Meat",desc:"Shiro & beef"},am:{name:"ሽሮ በሥጋ",desc:"ሽሮ ከሥጋ"},ar:{name:"شيرو باللحم",desc:"شيرو مع لحم"},price:350,cat:"Ethiopian Classics"},
+        // ---- Seafood & Meat ----
+        {no:52,en:{name:"Normal Roast Beef",desc:"Slow roasted beef"},am:{name:"ኖርማል ሮስት ቢፍ",desc:"የተጠበሰ በሬ"},ar:{name:"لحم بقري مشوي",desc:"لحم بقري مشوي ببطء"},price:450,cat:"Seafood & Meat"},
+        {no:53,en:{name:"Lamb Roast",desc:"Tender lamb roast"},am:{name:"በግ ሮስት",desc:"ለስላሳ በግ"},ar:{name:"شواء خروف",desc:"خروف مشوي طري"},price:450,cat:"Seafood & Meat"},
+        {no:54,en:{name:"Fish Goulash",desc:"Fish stew"},am:{name:"ዓሣ ጉላሽ",desc:"የዓሣ ወጥ"},ar:{name:"يخنة سمك",desc:"يخنة سمك"},price:350,cat:"Seafood & Meat"},
+        {no:55,en:{name:"Fish Cutlet",desc:"Crispy fried fish"},am:{name:"ዓሣ ኮትሌት",desc:"የተጠበሰ ዓሣ"},ar:{name:"سمك مقرمش",desc:"سمك مقلي مقرمش"},price:400,cat:"Seafood & Meat"},
+        {no:56,en:{name:"Fish Roast with Rice",desc:"Grilled fish + rice"},am:{name:"ዓሣ ሮስት ከሩዝ",desc:"የተጋገረ ዓሣ"},ar:{name:"سمك مشوي مع أرز",desc:"سمك مشوي وأرز"},price:400,cat:"Seafood & Meat"},
+        // ---- Salads & Breakfast ----
+        {no:57,en:{name:"Egg Sils",desc:"Spicy egg stew"},am:{name:"እንቁላል ስልስ",desc:"ቅመም እንቁላል"},ar:{name:"سيلس بيض",desc:"يخنة بيض حارة"},price:250,cat:"Salads & Breakfast"},
+        {no:58,en:{name:"Egg with Meat",desc:"Eggs with meat"},am:{name:"እንቁላል ከሥጋ",desc:"እንቁላል እና ሥጋ"},ar:{name:"بيض مع لحم",desc:"بيض مع لحم"},price:300,cat:"Salads & Breakfast"},
+        {no:59,en:{name:"Scramble Egg",desc:"Fluffy scrambled"},am:{name:"እንቁላል ፍርፍር",desc:"እንቁላል ጥብስ"},ar:{name:"بيض مخفوق",desc:"بيض مخفوق رقيق"},price:250,cat:"Salads & Breakfast"},
+        {no:60,en:{name:"Tomato Sils",desc:"Spicy tomato dip"},am:{name:"ቲማቲም ስልስ",desc:"ቅመም ቲማቲም"},ar:{name:"صلصة طماطم حارة",desc:"غموس طماطم"},price:200,cat:"Salads & Breakfast"},
+        {no:61,en:{name:"Special Salad with Egg",desc:"Garden + egg"},am:{name:"ልዩ ሰላጣ ከእንቁላል",desc:"የአትክልት ሰላጣ"},ar:{name:"سلطة خاصة بالبيض",desc:"سلطة مع بيض مسلوق"},price:350,cat:"Salads & Breakfast"},
+        {no:62,en:{name:"Normal Salad",desc:"Lettuce, tomato"},am:{name:"ተራ ሰላጣ",desc:"አትክልት"},ar:{name:"سلطة عادية",desc:"خس، طماطم"},price:200,cat:"Salads & Breakfast"},
+        {no:63,en:{name:"Tuna Salad",desc:"Tuna & greens"},am:{name:"ቱና ሰላጣ",desc:"ቱና እና አትክልት"},ar:{name:"سلطة تونة",desc:"تونة وخضار"},price:350,cat:"Salads & Breakfast"},
+        {no:64,en:{name:"Special Foul",desc:"Fava beans special"},am:{name:"ልዩ ፉል",desc:"ባቄላ"},ar:{name:"فول خاص",desc:"فول مدمس ببهارات"},price:250,cat:"Salads & Breakfast"},
+        {no:65,en:{name:"Normal Foul",desc:"Classic fava"},am:{name:"ተራ ፉል",desc:"ባቄላ"},ar:{name:"فول عادي",desc:"فول مدمس تقليدي"},price:200,cat:"Salads & Breakfast"},
+        {no:66,en:{name:"Foul with Avocado",desc:"Creamy avocado"},am:{name:"ፉል በአቮካዶ",desc:"አቮካዶ እና ፉል"},ar:{name:"فول بالأفوكادو",desc:"أفوكادو مع فول"},price:230,cat:"Salads & Breakfast"},
+        {no:67,en:{name:"Soup",desc:"Daily homemade"},am:{name:"ሾርባ",desc:"የዕለቱ ሾርባ"},ar:{name:"شوربة",desc:"شوربة اليوم"},price:210,cat:"Salads & Breakfast"},
+        // ---- Drinks & Beverages ----
+        {no:68,en:{name:"Soft Drink",desc:"Can soda"},am:{name:"ለስላሳ",desc:"ሶዳ"},ar:{name:"مشروب غازي",desc:"علبة صودا"},price:55,cat:"Drinks & Beverages"},
+        {no:69,en:{name:"Ambo Water",desc:"Mineral water"},am:{name:"አምቦ ውሃ",desc:"ማዕድን ውሃ"},ar:{name:"ماء عنبو",desc:"ماء معدني"},price:50,cat:"Drinks & Beverages"},
+        {no:70,en:{name:"1/4 Liter Water",desc:"Small"},am:{name:"ሩብ ሊትር ውሃ",desc:"ትንሽ"},ar:{name:"ربع لتر ماء",desc:"صغير"},price:30,cat:"Drinks & Beverages"},
+        {no:71,en:{name:"1/2 Liter Water",desc:"Medium"},am:{name:"ግማሽ ሊትር ውሃ",desc:"መካከለኛ"},ar:{name:"نصف لتر ماء",desc:"متوسط"},price:35,cat:"Drinks & Beverages"},
+        {no:72,en:{name:"1 Liter Water",desc:"Large"},am:{name:"አንድ ሊትር ውሃ",desc:"ትልቅ"},ar:{name:"لتر ماء",desc:"كبير"},price:40,cat:"Drinks & Beverages"},
+        {no:73,en:{name:"2 Liter Water",desc:"Family"},am:{name:"ሁለት ሊትር ውሃ",desc:"ቤተሰብ"},ar:{name:"لترين ماء",desc:"عائلة"},price:45,cat:"Drinks & Beverages"},
+        {no:74,en:{name:"Soft Drink Plastic",desc:"Plastic bottle"},am:{name:"ለስላሳ ፕላስቲክ",desc:"ፕላስቲክ ጠርሙስ"},ar:{name:"مشروب غازي بلاستيك",desc:"زجاجة بلاستيك"},price:70,cat:"Drinks & Beverages"},
+        {no:75,en:{name:"Flavor Tea",desc:"Infused tea"},am:{name:"ፍሌቨር ሻይ",desc:"ሻይ"},ar:{name:"شاي منكه",desc:"شاي منكه"},price:70,cat:"Drinks & Beverages"},
+        {no:76,en:{name:"Lemon Tea",desc:"Refreshing"},am:{name:"ሎሚ ሻይ",desc:"ሎሚ"},ar:{name:"شاي ليمون",desc:"منعش"},price:35,cat:"Drinks & Beverages"},
+        {no:77,en:{name:"Tea",desc:"Traditional"},am:{name:"ሻይ",desc:"ባህላዊ"},ar:{name:"شاي",desc:"تقليدي"},price:30,cat:"Drinks & Beverages"},
+        {no:78,en:{name:"Special Tea",desc:"Spiced premium"},am:{name:"እስፔሻል ሻይ",desc:"ቅመም"},ar:{name:"شاي خاص",desc:"شاي مميز"},price:110,cat:"Drinks & Beverages"},
+        {no:79,en:{name:"Macchiato",desc:"Espresso with milk"},am:{name:"ማኪያቶ",desc:"ኤስፕሬሶ"},ar:{name:"ماتشياتو",desc:"إسبرسو بحليب"},price:90,cat:"Drinks & Beverages"},
+        {no:80,en:{name:"Coffee",desc:"Freshly brewed"},am:{name:"ቡና",desc:"ትኩስ ቡና"},ar:{name:"قهوة",desc:"قهوة طازجة"},price:45,cat:"Drinks & Beverages"},
+        {no:81,en:{name:"Kettle Coffee",desc:"Traditional pot"},am:{name:"የጀበና ቡና",desc:"ጀበና"},ar:{name:"قهوة دلة",desc:"وعاء تقليدي"},price:40,cat:"Drinks & Beverages"},
+        {no:82,en:{name:"Milk",desc:"Fresh milk"},am:{name:"ወተት",desc:"ትኩስ ወተት"},ar:{name:"حليب",desc:"حليب طازج"},price:80,cat:"Drinks & Beverages"},
+        {no:83,en:{name:"Peanut Tea",desc:"Nutty tea"},am:{name:"የለውዝ ሻይ",desc:"ለውዝ"},ar:{name:"شاي فول سوداني",desc:"شاي جوزي"},price:70,cat:"Drinks & Beverages"},
+        {no:84,en:{name:"Cappuccino",desc:"Rich & creamy"},am:{name:"ካፑቺኖ",desc:"ክሬም"},ar:{name:"كابتشينو",desc:"غني وكريمي"},price:110,cat:"Drinks & Beverages"},
+        {no:85,en:{name:"Spris Juice",desc:"Citrus"},am:{name:"ስፕሪስ ጁስ",desc:"ሲትረስ"},ar:{name:"عصير سبرايت",desc:"حمضيات"},price:60,cat:"Drinks & Beverages"},
+        {no:86,en:{name:"Ginger Tea",desc:"Zesty"},am:{name:"ዝንጅብል ሻይ",desc:"ዝንጅብል"},ar:{name:"شاي زنجبيل",desc:"حار"},price:45,cat:"Drinks & Beverages"},
+        {no:87,en:{name:"Peanut with Milk",desc:"Peanut milk"},am:{name:"ለውዝ በወተት",desc:"ለውዝ ወተት"},ar:{name:"فول سوداني بالحليب",desc:"مشروب"},price:85,cat:"Drinks & Beverages"},
+        {no:88,en:{name:"Peanut with Ginger",desc:"Spiced peanut"},am:{name:"ለውዝ በቀሽር",desc:"ዝንጅብል"},ar:{name:"فول سوداني بالزنجبيل",desc:"متبل"},price:65,cat:"Drinks & Beverages"},
+        {no:89,en:{name:"Avocado Juice",desc:"Fresh"},am:{name:"አቮካዶ ጁስ",desc:"አቮካዶ"},ar:{name:"عصير أفوكادو",desc:"طازج"},price:150,cat:"Drinks & Beverages"},
+        {no:90,en:{name:"Papaya Juice",desc:"Sweet"},am:{name:"ፓፓያ ጁስ",desc:"ፓፓያ"},ar:{name:"عصير بابايا",desc:"حلو"},price:150,cat:"Drinks & Beverages"},
+        {no:91,en:{name:"Spice Juice",desc:"Exotic mix"},am:{name:"ስፓይስ ጁስ",desc:"የተቀመመ"},ar:{name:"عصير بهارات",desc:"مزيج غريب"},price:180,cat:"Drinks & Beverages"},
+        {no:92,en:{name:"Avocado Shake",desc:"Creamy shake"},am:{name:"አቮካዶ ሼክ",desc:"ክሬም"},ar:{name:"شيك أفوكادو",desc:"كريمي"},price:200,cat:"Drinks & Beverages"},
+        {no:93,en:{name:"Mango Shake",desc:"Tropical"},am:{name:"ማንጎ ሼክ",desc:"ማንጎ"},ar:{name:"شيك مانجو",desc:"استوائي"},price:200,cat:"Drinks & Beverages"},
+        {no:94,en:{name:"Strawberry Shake",desc:"Sweet"},am:{name:"ስትሮቤሪ ሼክ",desc:"እንጆሪ"},ar:{name:"شيك فراولة",desc:"حلو"},price:200,cat:"Drinks & Beverages"},
+        {no:95,en:{name:"Special Fruit Punch",desc:"Premium fruits"},am:{name:"ልዩ ፍራፍሬ ፓንች",desc:"የተለያዩ"},ar:{name:"بونش فواكه خاص",desc:"فواكه ممتازة"},price:300,cat:"Drinks & Beverages"},
+        {no:96,en:{name:"Normal Fruit Punch",desc:"Refreshing"},am:{name:"ተራ ፍራፍሬ ፓንች",desc:"መደበኛ"},ar:{name:"بونش فواكه عادي",desc:"منعش"},price:200,cat:"Drinks & Beverages"},
+        {no:97,en:{name:"Normal Milk Shake",desc:"Classic shake"},am:{name:"ኖርማል ሚልክ ሼክ",desc:"ክላሲክ"},ar:{name:"ميلك شيك عادي",desc:"كلاسيكي"},price:200,cat:"Drinks & Beverages"},
+        {no:98,en:{name:"Chocolate Milk Shake",desc:"Rich chocolate"},am:{name:"ቸኮሌት ሚልክ ሼክ",desc:"ቸኮሌት"},ar:{name:"ميلك شيك شوكولاتة",desc:"غني"},price:200,cat:"Drinks & Beverages"},
+        // ---- Combos & Catering ----
+        {no:99,en:{name:"Fasting Special Agelgil",desc:"Vegan platter"},am:{name:"የጾም አገልግል ልዩ",desc:"ቬጋን"},ar:{name:"أجيلجيل خاص للصوم",desc:"طبق نباتي"},price:7475,cat:"Combos & Catering"},
+        {no:100,en:{name:"Fasting Normal Agelgil",desc:"Standard vegan"},am:{name:"የጾም አገልግል ተራ",desc:"መደበኛ"},ar:{name:"أجيلجيل عادي للصوم",desc:"نباتي قياسي"},price:6325,cat:"Combos & Catering"},
+        {no:101,en:{name:"Special Agelgil Fisic",desc:"Premium fisic"},am:{name:"ልዩ አገልግል ፊሲክ",desc:"የላቀ"},ar:{name:"أجيلجيل فيسك خاص",desc:"ممتاز"},price:11500,cat:"Combos & Catering"},
+        {no:102,en:{name:"Normal Agelgil Fisic",desc:"Regular fisic"},am:{name:"ተራ አገልግል ፊሲክ",desc:"መደበኛ"},ar:{name:"أجيلجيل فيسك عادي",desc:"قياسي"},price:8050,cat:"Combos & Catering"},
+        {no:103,en:{name:"Catering (Normal)",desc:"Catering tray"},am:{name:"ኬትሪንግ መደበኛ",desc:"ኬትሪንግ"},ar:{name:"تقديم عادي",desc:"صحن تقديم"},price:800,cat:"Combos & Catering"},
+        {no:104,en:{name:"Special Catering",desc:"Deluxe"},am:{name:"ልዩ ኬትሪንግ",desc:"ዴላክስ"},ar:{name:"تقديم خاص",desc:"فاخر"},price:1150,cat:"Combos & Catering"},
+        {no:105,en:{name:"Normal Catering",desc:"Standard"},am:{name:"ተራ ኬትሪንግ",desc:"መደበኛ"},ar:{name:"تقديم عادي",desc:"قياسي"},price:1050,cat:"Combos & Catering"},
+        {no:106,en:{name:"Monaz Special Platter",desc:"Kitfo, gomen, tibs"},am:{name:"ሞናዝ ልዩ",desc:"ክትፎ ጐመን ጥብስ"},ar:{name:"طبق موناز خاص",desc:"كيتفو، جومين، تبس"},price:1000,cat:"Combos & Catering"},
+        {no:107,en:{name:"Fasting Breakfast Combo",desc:"Vegan breakfast"},am:{name:"የጾም ቁርስ ኮምቦ",desc:"ቬጋን"},ar:{name:"كومبو فطور للصوم",desc:"إفطار نباتي"},price:600,cat:"Combos & Catering"},
+        {no:108,en:{name:"Lunch Combo Fisic",desc:"Fisic lunch"},am:{name:"ምሳ ኮምቦ ፊሲክ",desc:"ፊሲክ"},ar:{name:"كومبو غداء فيسك",desc:"غداء فيسك"},price:1000,cat:"Combos & Catering"},
+        {no:109,en:{name:"Fasting Combo Lunch",desc:"Fasting lunch"},am:{name:"የጾም ኮምቦ ምሳ",desc:"የጾም ምሳ"},ar:{name:"كومبو غداء للصوم",desc:"غداء صوم"},price:600,cat:"Combos & Catering"},
+        // ---- Extras & Takeaway ----
+        {no:110,en:{name:"French Fries",desc:"Crispy fries"},am:{name:"ቺፕስ",desc:"ብስኩት"},ar:{name:"بطاطس مقلية",desc:"مقرمشة"},price:170,cat:"Extras & Takeaway"},
+        {no:111,en:{name:"Extra Injera (1/2)",desc:"Half"},am:{name:"ተጨማሪ እንጀራ ግማሽ",desc:"ግማሽ"},ar:{name:"إنجيرا إضافية نصف",desc:"نصف"},price:20,cat:"Extras & Takeaway"},
+        {no:112,en:{name:"Extra Injera (1)",desc:"Full"},am:{name:"ተጨማሪ እንጀራ 1",desc:"ሙሉ"},ar:{name:"إنجيرا إضافية كاملة",desc:"كاملة"},price:40,cat:"Extras & Takeaway"},
+        {no:113,en:{name:"Bread",desc:"Fresh loaf"},am:{name:"ዳቦ",desc:"ትኩስ"},ar:{name:"خبز",desc:"رغيف طازج"},price:15,cat:"Extras & Takeaway"},
+        {no:114,en:{name:"Pizza Take Away",desc:"Container"},am:{name:"ፒዛ ቴክ አዌ",desc:"ማስቀመጫ"},ar:{name:"بيتزا سفري",desc:"علبة سفري"},price:30,cat:"Extras & Takeaway"},
+        {no:115,en:{name:"Burger Take Away",desc:"Box"},am:{name:"በርገር ቴክ አዌ",desc:"ሳጥን"},ar:{name:"برغر سفري",desc:"صندوق"},price:25,cat:"Extras & Takeaway"},
+        {no:116,en:{name:"Foile Takeaway",desc:"Foil pack"},am:{name:"ፎይል ቴክ አዌ",desc:"ፎይል"},ar:{name:"تغليف قصدير",desc:"علبة قصدير"},price:20,cat:"Extras & Takeaway"},
+        {no:117,en:{name:"Macchiato Take Away",desc:"To-go cup"},am:{name:"ማኪያቶ ቴክ አዌ",desc:"ኩባያ"},ar:{name:"ماتشياتو سفري",desc:"كوب سفري"},price:15,cat:"Extras & Takeaway"},
+        {no:118,en:{name:"Juice Take Away",desc:"Plastic cup"},am:{name:"ጁስ ቴክ አዌ",desc:"ጁስ"},ar:{name:"عصير سفري",desc:"كوب بلاستيك"},price:20,cat:"Extras & Takeaway"},
+        {no:119,en:{name:"Extra Mayonnaise",desc:"Side mayo"},am:{name:"ተጨማሪ ማዮኔዝ",desc:"ማዮ"},ar:{name:"مايونيز إضافي",desc:"مايونيز جانبي"},price:40,cat:"Extras & Takeaway"},
+        {no:120,en:{name:"Extra Ketchup",desc:"Side ketchup"},am:{name:"ተጨማሪ ኬትቸፕ",desc:"ኬትቸፕ"},ar:{name:"كاتشب إضافي",desc:"كاتشب جانبي"},price:40,cat:"Extras & Takeaway"},
+        {no:121,en:{name:"Extra Cheese",desc:"Add cheese"},am:{name:"ተጨማሪ አይብ",desc:"አይብ"},ar:{name:"جبن إضافي",desc:"إضافة جبن"},price:40,cat:"Extras & Takeaway"},
+        {no:122,en:{name:"Extra Egg",desc:"Add egg"},am:{name:"ተጨማሪ እንቁላል",desc:"እንቁላል"},ar:{name:"بيض إضافي",desc:"إضافة بيض"},price:30,cat:"Extras & Takeaway"},
+        {no:123,en:{name:"Sanbusa with Fries",desc:"Sanbusa + fries"},am:{name:"ሳንቡሳ ከቺፕስ",desc:"ሳንቡሳ ቺፕስ"},ar:{name:"سمبوسة مع بطاطس",desc:"سمبوسة وبطاطس"},price:250,cat:"Extras & Takeaway"},
+        {no:124,en:{name:"Strawberry Cake",desc:"Slice"},am:{name:"ስትሮቤሪ ኬክ",desc:"ቁራጭ"},ar:{name:"كيك فراولة",desc:"قطعة"},price:40,cat:"Extras & Takeaway"},
+        {no:125,en:{name:"Chocolate Cake",desc:"Rich slice"},am:{name:"ቸኮሌት ኬክ",desc:"ቸኮሌት"},ar:{name:"كيك شوكولاتة",desc:"قطعة غنية"},price:40,cat:"Extras & Takeaway"},
+        {no:126,en:{name:"Tekorach Cake",desc:"Special recipe"},am:{name:"ጥቆራች ኬክ",desc:"ልዩ"},ar:{name:"كيك تيكوراتش",desc:"وصفة خاصة"},price:70,cat:"Extras & Takeaway"},
+        {no:127,en:{name:"Custard Cake",desc:"Creamy"},am:{name:"ካስታርድ ኬክ",desc:"ክሬም"},ar:{name:"كيك كاسترد",desc:"كريمي"},price:40,cat:"Extras & Takeaway"},
+        {no:128,en:{name:"Donut",desc:"Glazed"},am:{name:"ዶናት",desc:"ግሌዝድ"},ar:{name:"دونات",desc:"مزجج"},price:60,cat:"Extras & Takeaway"},
+        {no:129,en:{name:"Bomboloni",desc:"Italian filled"},am:{name:"ቦምቦሎኒ",desc:"የተሞላ"},ar:{name:"بومبولوني",desc:"محشو إيطالي"},price:40,cat:"Extras & Takeaway"},
+        {no:130,en:{name:"Food Take Away Large",desc:"Large container"},am:{name:"ምግብ ቴክ አዌ ትልቅ",desc:"ማስቀመጫ"},ar:{name:"حاوية طعام كبيرة",desc:"سفري كبير"},price:30,cat:"Extras & Takeaway"},
+        {no:131,en:{name:"Lipton Tea",desc:"Tea bag"},am:{name:"ሊፕተን ሻይ",desc:"ሻይ ከረጢት"},ar:{name:"شاي ليب tone",desc:"كيس شاي"},price:45,cat:"Drinks & Beverages"},
+        {no:132,en:{name:"Sanbusa",desc:"Fried pastry"},am:{name:"ሳንቡሳ",desc:"የተጠበሰ"},ar:{name:"سمبوسة",desc:"معجنات مقلية"},price:30,cat:"Extras & Takeaway"},
+        {no:133,en:{name:"Gomen Kitifo",desc:"Collard greens kitfo style"},am:{name:"ጐመን ክትፎ",desc:"ጐመን"},ar:{name:"جومين كيتفو",desc:"كرنب على طريقة كيتفو"},price:300,cat:"Ethiopian Classics"}
+    ];
+
+    // UI logic
+    let currentLang = 'en', currentCategory = 'all', searchQuery = '';
+    function render() {
+        let filtered = FULL_MENU.filter(i => currentCategory === 'all' || i.cat === currentCategory);
+        if(searchQuery.trim()) {
+            const q = searchQuery.toLowerCase();
+            filtered = filtered.filter(i => i.en.name.toLowerCase().includes(q) || i.am.name.includes(q) || i.ar.name.includes(q));
+        }
+        const groups = {};
+        filtered.forEach(i => { if(!groups[i.cat]) groups[i.cat] = []; groups[i.cat].push(i); });
+        const catOrder = ["Pizzas & Pastas","Burgers & Sandwiches","Rice & Specials","Ethiopian Classics","Seafood & Meat","Salads & Breakfast","Drinks & Beverages","Combos & Catering","Extras & Takeaway"];
+        let html = '';
+        for(let cat of catOrder) {
+            if(groups[cat]) {
+                html += `<div class="category-section"><div class="category-title">${cat}</div><div class="menu-grid">`;
+                groups[cat].forEach(item => {
+                    const name = currentLang === 'en' ? item.en.name : (currentLang === 'am' ? item.am.name : item.ar.name);
+                    const desc = currentLang === 'en' ? item.en.desc : (currentLang === 'am' ? item.am.desc : item.ar.desc);
+                    html += `<div class="menu-card"><div class="item-header"><span class="item-name">${name}</span><span class="item-price">ETB ${item.price}</span></div><div class="item-desc"><span class="item-number">#${item.no}</span><span><i class="fas fa-tag badge-icon"></i> ${desc}</span></div></div>`;
+                });
+                html += `</div></div>`;
+            }
+        }
+        document.getElementById('menuRoot').innerHTML = html || '<div class="no-results"><i class="fas fa-search"></i> No items found</div>';
+    }
+    function buildFilters() {
+        const cats = [...new Set(FULL_MENU.map(i=>i.cat))];
+        const container = document.getElementById('filterGroup');
+        container.innerHTML = `<button data-cat="all" class="cat-btn active">${currentLang==='en'?'All':(currentLang==='am'?'ሁሉም':'الكل')}</button>`;
+        cats.forEach(c=>{
+            const btn = document.createElement('button');
+            btn.className = 'cat-btn';
+            btn.setAttribute('data-cat',c);
+            btn.innerText = c;
+            btn.addEventListener('click',()=>{
+                document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+                btn.classList.add('active');
+                currentCategory = c;
+                render();
+            });
+            container.appendChild(btn);
+        });
+    }
+    function setLanguage(lang) {
+        currentLang = lang;
+        document.body.className = `lang-${lang}`;
+        document.querySelectorAll('.lang-btn').forEach(btn=>btn.classList.remove('active'));
+        document.querySelector(`[data-lang="${lang}"]`).classList.add('active');
+        document.getElementById('heroTitle').innerHTML = lang==='en'?'✦ MONAZ ─ GASTRONOMY ✦':(lang==='am'?'✦ ሞናዝ ─ ጋስትሮኖሚ ✦':'✦ موناز ─ فن الطهي ✦');
+        document.getElementById('heroSub').innerText = lang==='en'?'Authentic Ethiopian & International Cuisine | All prices include 15% VAT':(lang==='am'?'ትክክለኛ የኢትዮጵያ እና ዓለም አቀፍ ምግብ': 'مأكولات إثيوبية وعالمية أصلية');
+        document.getElementById('globalSearch').placeholder = lang==='en'?'🔍 Search dish...':(lang==='am'?'🔍 ምግብ ፈልግ...':'🔍 ابحث عن طبق...');
+        buildFilters();
+        render();
+    }
+    document.querySelectorAll('.lang-btn').forEach(btn=>btn.addEventListener('click',()=>setLanguage(btn.getAttribute('data-lang'))));
+    document.getElementById('globalSearch').addEventListener('input',e=>{searchQuery=e.target.value; render();});
+    buildFilters();
+    setLanguage('en');
+</script>
+</body>
+</html>
